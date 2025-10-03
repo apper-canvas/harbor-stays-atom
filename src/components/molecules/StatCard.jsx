@@ -5,8 +5,7 @@ import { cn } from "@/utils/cn";
 
 const StatCard = ({ title, value, icon, trend, trendValue, color = "accent" }) => {
   // Ensure color exists in colorClasses, fallback to accent
-  const safeColor = color && colorClasses[color] ? color : "accent";
-  const colorClasses = {
+const colorClasses = {
     accent: {
       gradient: "from-accent to-blue-600",
       bg: "bg-accent",
@@ -33,6 +32,7 @@ const StatCard = ({ title, value, icon, trend, trendValue, color = "accent" }) =
       border: "border-secondary"
     }
   };
+  const safeColor = color && colorClasses[color] ? color : "accent";
 
   return (
 <Card hover className={cn("p-6 border-l-4", (colorClasses[safeColor] || colorClasses.accent).border, "relative overflow-hidden")}>
