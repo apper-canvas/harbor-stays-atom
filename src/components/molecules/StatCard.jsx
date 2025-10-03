@@ -4,6 +4,8 @@ import Card from "@/components/atoms/Card";
 import { cn } from "@/utils/cn";
 
 const StatCard = ({ title, value, icon, trend, trendValue, color = "accent" }) => {
+  // Ensure color exists in colorClasses, fallback to accent
+  const safeColor = color && colorClasses[color] ? color : "accent";
   const colorClasses = {
     accent: {
       gradient: "from-accent to-blue-600",
@@ -33,12 +35,12 @@ const StatCard = ({ title, value, icon, trend, trendValue, color = "accent" }) =
   };
 
   return (
-    <Card hover className={cn("p-6 border-l-4", colorClasses[color].border, "relative overflow-hidden")}>
+<Card hover className={cn("p-6 border-l-4", (colorClasses[safeColor] || colorClasses.accent).border, "relative overflow-hidden")}>
       <div className="flex items-center justify-between mb-5">
         <span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">{title}</span>
-        <div className={cn(
+<div className={cn(
           "p-3 rounded-xl shadow-lg transition-all duration-300",
-          colorClasses[color].bg,
+          (colorClasses[safeColor] || colorClasses.accent).bg,
           "hover:scale-110"
         )}>
           <ApperIcon name={icon} size={24} className="text-white" />
