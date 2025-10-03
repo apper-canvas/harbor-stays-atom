@@ -359,5 +359,3 @@ const roomService = {
 };
 
 export default roomService;
-
-export default roomService;

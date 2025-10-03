@@ -326,5 +326,3 @@ const guestService = {
 };
 
 export default guestService;
-
-export default guestService;
