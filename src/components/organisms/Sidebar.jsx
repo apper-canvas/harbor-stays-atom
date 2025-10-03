@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AuthContext } from "../../App";
 import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 import { cn } from "@/utils/cn";
 
 const Sidebar = () => {
+  const { logout } = useContext(AuthContext);
+  const userState = useSelector((state) => state.user);
+  const user = userState?.user;
+  
+  const getUserInitials = () => {
+    if (!user) return "AD";
+    const firstName = user.firstName || user.first_name || "";
+    const lastName = user.lastName || user.last_name || "";
+    return `${firstName[0] || ""}${lastName[0] || ""}`.toUpperCase() || "AD";
+  };
+  
+  const getUserName = () => {
+    if (!user) return "Admin User";
+    return `${user.firstName || user.first_name || ""} ${user.lastName || user.last_name || ""}`.trim() || "Admin User";
+  };
+
   const navItems = [
     { path: "/", label: "Dashboard", icon: "Home" },
     { path: "/rooms", label: "Rooms", icon: "Grid3x3" },
@@ -46,18 +65,27 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-white/10">
+      <div className="p-4 border-t border-white/10 space-y-3">
         <div className="flex items-center space-x-3 px-4 py-3">
           <div className="h-10 w-10 rounded-full bg-gradient-to-br from-accent to-blue-600 flex items-center justify-center text-white font-bold">
-            AD
+            {getUserInitials()}
           </div>
           <div className="flex-1">
-            <p className="font-medium text-sm">Admin User</p>
+            <p className="font-medium text-sm">{getUserName()}</p>
             <p className="text-xs text-white/70">Front Desk</p>
           </div>
         </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={logout}
+          className="w-full text-white hover:bg-white/10"
+        >
+          <ApperIcon name="LogOut" size={16} className="mr-2" />
+          Logout
+        </Button>
       </div>
-    </div>
+</div>
   );
 };
 

@@ -5,9 +5,9 @@ import Badge from "@/components/atoms/Badge";
 import { format, parseISO } from "date-fns";
 
 const TodayOperations = ({ arrivals, departures, guests, rooms }) => {
-  const getGuestName = (guestId) => {
-    const guest = guests.find(g => g.Id === guestId);
-    return guest ? `${guest.firstName} ${guest.lastName}` : "Guest";
+const getGuestName = (guestId) => {
+    const guest = guests.find(g => g.Id === (guestId?.Id || guestId));
+    return guest ? `${guest.first_name_c} ${guest.last_name_c}` : (guestId?.Name || "Guest");
   };
 
   const getRoomNumber = (roomId) => {
@@ -34,14 +34,14 @@ const TodayOperations = ({ arrivals, departures, guests, rooms }) => {
         ) : (
           <div className="space-y-3">
             {arrivals.slice(0, 5).map(booking => (
-              <div key={booking.Id} className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
+<div key={booking.Id} className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="h-10 w-10 rounded-full bg-gradient-to-br from-success to-green-600 flex items-center justify-center text-white font-bold">
-                    {getRoomNumber(booking.roomId)}
+                    {getRoomNumber(booking.room_id_c)}
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">{getGuestName(booking.guestId)}</p>
-                    <p className="text-sm text-gray-600">{booking.numberOfGuests} guests</p>
+                    <p className="font-semibold text-gray-900">{getGuestName(booking.guest_id_c)}</p>
+                    <p className="text-sm text-gray-600">{booking.number_of_guests_c} guests</p>
                   </div>
                 </div>
                 <Badge variant="confirmed">Arriving</Badge>
@@ -67,15 +67,15 @@ const TodayOperations = ({ arrivals, departures, guests, rooms }) => {
           </div>
         ) : (
           <div className="space-y-3">
-            {departures.slice(0, 5).map(booking => (
+{departures.slice(0, 5).map(booking => (
               <div key={booking.Id} className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="h-10 w-10 rounded-full bg-gradient-to-br from-warning to-yellow-600 flex items-center justify-center text-white font-bold">
-                    {getRoomNumber(booking.roomId)}
+                    {getRoomNumber(booking.room_id_c)}
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">{getGuestName(booking.guestId)}</p>
-                    <p className="text-sm text-gray-600">{booking.numberOfGuests} guests</p>
+                    <p className="font-semibold text-gray-900">{getGuestName(booking.guest_id_c)}</p>
+                    <p className="text-sm text-gray-600">{booking.number_of_guests_c} guests</p>
                   </div>
                 </div>
                 <Badge variant="warning">Departing</Badge>

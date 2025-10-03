@@ -37,15 +37,15 @@ const Guests = ({ onMenuClick }) => {
     let filtered = guests;
 
     if (vipFilter) {
-      filtered = filtered.filter(g => g.vipStatus);
+filtered = filtered.filter(g => g.vip_status_c);
     }
 
     if (searchQuery) {
       filtered = filtered.filter(g =>
-        g.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        g.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        g.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        g.phone.includes(searchQuery)
+        g.first_name_c?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        g.last_name_c?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        g.email_c?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        g.phone_c?.includes(searchQuery)
       );
     }
 

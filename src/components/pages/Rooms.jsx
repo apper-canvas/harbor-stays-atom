@@ -35,10 +35,10 @@ const Rooms = ({ onMenuClick }) => {
   }, []);
 
   useEffect(() => {
-    if (statusFilter === "all") {
+if (statusFilter === "all") {
       setFilteredRooms(rooms);
     } else {
-      setFilteredRooms(rooms.filter(r => r.status === statusFilter));
+      setFilteredRooms(rooms.filter(r => r.status_c === statusFilter));
     }
   }, [statusFilter, rooms]);
 
@@ -56,12 +56,12 @@ const Rooms = ({ onMenuClick }) => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadRooms} />;
 
-  const statusCounts = {
+const statusCounts = {
     all: rooms.length,
-    available: rooms.filter(r => r.status === "available").length,
-    occupied: rooms.filter(r => r.status === "occupied").length,
-    cleaning: rooms.filter(r => r.status === "cleaning").length,
-    maintenance: rooms.filter(r => r.status === "maintenance").length
+    available: rooms.filter(r => r.status_c === "available").length,
+    occupied: rooms.filter(r => r.status_c === "occupied").length,
+    cleaning: rooms.filter(r => r.status_c === "cleaning").length,
+    maintenance: rooms.filter(r => r.status_c === "maintenance").length
   };
 
   return (

@@ -68,11 +68,11 @@ const Reports = ({ onMenuClick }) => {
     statistics.maintenance
   ];
 
-  const bookingStatusData = {
-    confirmed: bookings.filter(b => b.status === "confirmed").length,
-    checkedIn: bookings.filter(b => b.status === "checked-in").length,
-    checkedOut: bookings.filter(b => b.status === "checked-out").length,
-    cancelled: bookings.filter(b => b.status === "cancelled").length
+const bookingStatusData = {
+    confirmed: bookings.filter(b => b.status_c === "confirmed").length,
+    checkedIn: bookings.filter(b => b.status_c === "checked-in").length,
+    checkedOut: bookings.filter(b => b.status_c === "checked-out").length,
+    cancelled: bookings.filter(b => b.status_c === "cancelled").length
   };
 
   const bookingChartOptions = {

@@ -55,12 +55,14 @@ const Bookings = ({ onMenuClick }) => {
 
     if (searchQuery) {
       filtered = filtered.filter(b => {
-        const guest = guests.find(g => g.Id === b.guestId);
-        const room = rooms.find(r => r.Id === b.roomId);
+const guest = guests.find(g => g.Id === b.guest_id_c?.Id || g.Id === b.guest_id_c);
+        const room = rooms.find(r => r.Id === b.room_id_c?.Id || r.Id === b.room_id_c);
         return (
-          guest?.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          guest?.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          room?.roomNumber.includes(searchQuery)
+          guest?.first_name_c?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          guest?.last_name_c?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          b.guest_id_c?.Name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          room?.room_number_c?.includes(searchQuery) ||
+          b.room_id_c?.Name?.includes(searchQuery)
         );
       });
     }
@@ -83,11 +85,11 @@ const Bookings = ({ onMenuClick }) => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadData} />;
 
-  const statusCounts = {
+const statusCounts = {
     all: bookings.length,
-    confirmed: bookings.filter(b => b.status === "confirmed").length,
-    "checked-in": bookings.filter(b => b.status === "checked-in").length,
-    "checked-out": bookings.filter(b => b.status === "checked-out").length
+    confirmed: bookings.filter(b => b.status_c === "confirmed").length,
+    "checked-in": bookings.filter(b => b.status_c === "checked-in").length,
+    "checked-out": bookings.filter(b => b.status_c === "checked-out").length
   };
 
   return (
@@ -155,12 +157,12 @@ const Bookings = ({ onMenuClick }) => {
           />
         ) : (
           <div className="space-y-3">
-            {filteredBookings.map(booking => (
+{filteredBookings.map(booking => (
               <BookingListItem
                 key={booking.Id}
                 booking={booking}
-                guest={guests.find(g => g.Id === booking.guestId)}
-                room={rooms.find(r => r.Id === booking.roomId)}
+                guest={guests.find(g => g.Id === (booking.guest_id_c?.Id || booking.guest_id_c))}
+                room={rooms.find(r => r.Id === (booking.room_id_c?.Id || booking.room_id_c))}
                 onClick={() => {}}
               />
             ))}

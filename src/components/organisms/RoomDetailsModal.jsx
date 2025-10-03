@@ -31,8 +31,8 @@ const RoomDetailsModal = ({ isOpen, onClose, room, onStatusChange }) => {
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-3xl font-bold text-primary">Room {room.roomNumber}</h2>
-              <p className="text-gray-600">{room.type}</p>
+<h2 className="text-3xl font-bold text-primary">Room {room.room_number_c}</h2>
+              <p className="text-gray-600">{room.type_c}</p>
             </div>
             <button
               onClick={onClose}
@@ -44,11 +44,11 @@ const RoomDetailsModal = ({ isOpen, onClose, room, onStatusChange }) => {
 
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <Badge variant={room.status} className="text-base px-4 py-2">
-                {room.status}
+<Badge variant={room.status_c} className="text-base px-4 py-2">
+                {room.status_c}
               </Badge>
               <span className="text-sm text-gray-600">
-                Floor {room.floor}
+                Floor {room.floor_c}
               </span>
             </div>
 
@@ -58,7 +58,7 @@ const RoomDetailsModal = ({ isOpen, onClose, room, onStatusChange }) => {
                   <ApperIcon name="Users" size={18} className="text-gray-600" />
                   <span className="text-sm text-gray-600">Capacity</span>
                 </div>
-                <p className="text-2xl font-bold text-primary">{room.capacity}</p>
+<p className="text-2xl font-bold text-primary">{room.capacity_c}</p>
               </div>
 
               <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-lg">
@@ -67,7 +67,7 @@ const RoomDetailsModal = ({ isOpen, onClose, room, onStatusChange }) => {
                   <span className="text-sm text-gray-600">Base Rate</span>
                 </div>
                 <p className="text-2xl font-bold bg-gradient-to-r from-secondary to-yellow-600 bg-clip-text text-transparent">
-                  ${room.baseRate}
+${room.base_rate_c}
                 </p>
               </div>
             </div>
@@ -78,7 +78,7 @@ const RoomDetailsModal = ({ isOpen, onClose, room, onStatusChange }) => {
                 <span>Amenities</span>
               </h3>
               <div className="flex flex-wrap gap-2">
-                {room.amenities.map((amenity, index) => (
+{(room.amenities_c || "").split(',').filter(Boolean).map((amenity, index) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-full text-sm"
@@ -95,24 +95,24 @@ const RoomDetailsModal = ({ isOpen, onClose, room, onStatusChange }) => {
                 <span className="text-sm font-medium text-blue-900">Last Cleaned</span>
               </div>
               <p className="text-gray-700">
-                {format(parseISO(room.lastCleaned), "PPpp")}
+{format(parseISO(room.last_cleaned_c), "PPpp")}
               </p>
             </div>
 
-            {room.notes && (
+{room.notes_c && (
               <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-lg">
                 <div className="flex items-center space-x-2 mb-2">
                   <ApperIcon name="FileText" size={18} className="text-yellow-600" />
                   <span className="text-sm font-medium text-yellow-900">Notes</span>
                 </div>
-                <p className="text-gray-700">{room.notes}</p>
+                <p className="text-gray-700">{room.notes_c}</p>
               </div>
             )}
 
             <div className="pt-4 border-t border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-3">Change Status</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {statusActions[room.status]?.map((action) => (
+{statusActions[room.status_c]?.map((action) => (
                   <Button
                     key={action.status}
                     variant="outline"

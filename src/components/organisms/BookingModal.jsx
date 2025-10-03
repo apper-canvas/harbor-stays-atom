@@ -6,13 +6,13 @@ import Card from "@/components/atoms/Card";
 
 const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = null }) => {
   const [formData, setFormData] = useState({
-    guestId: "",
-    roomId: "",
-    checkIn: "",
-    checkOut: "",
-    numberOfGuests: 1,
-    specialRequests: "",
-    paymentStatus: "pending"
+    guest_id_c: "",
+    room_id_c: "",
+    check_in_c: "",
+    check_out_c: "",
+    number_of_guests_c: 1,
+    special_requests_c: "",
+    payment_status_c: "pending"
   });
 
   useEffect(() => {
@@ -21,18 +21,18 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
     }
   }, [editBooking]);
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
-    const selectedRoom = rooms.find(r => r.Id === parseInt(formData.roomId));
-    const nights = Math.ceil((new Date(formData.checkOut) - new Date(formData.checkIn)) / (1000 * 60 * 60 * 24));
-    const totalAmount = selectedRoom ? selectedRoom.baseRate * nights : 0;
+    const selectedRoom = rooms.find(r => r.Id === parseInt(formData.room_id_c));
+    const nights = Math.ceil((new Date(formData.check_out_c) - new Date(formData.check_in_c)) / (1000 * 60 * 60 * 24));
+    const totalAmount = selectedRoom ? selectedRoom.base_rate_c * nights : 0;
     
     onSubmit({
       ...formData,
-      guestId: parseInt(formData.guestId),
-      roomId: parseInt(formData.roomId),
-      numberOfGuests: parseInt(formData.numberOfGuests),
-      totalAmount
+      guest_id_c: parseInt(formData.guest_id_c),
+      room_id_c: parseInt(formData.room_id_c),
+      number_of_guests_c: parseInt(formData.number_of_guests_c),
+      total_amount_c: totalAmount
     });
   };
 
@@ -42,7 +42,7 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
 
   if (!isOpen) return null;
 
-  const availableRooms = rooms.filter(r => r.status === "available" || r.Id === formData.roomId);
+const availableRooms = rooms.filter(r => r.status_c === "available" || r.Id === formData.room_id_c);
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -67,15 +67,15 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
                   Guest
                 </label>
                 <select
-                  value={formData.guestId}
-                  onChange={(e) => handleChange("guestId", e.target.value)}
+value={formData.guest_id_c}
+                  onChange={(e) => handleChange("guest_id_c", e.target.value)}
                   required
                   className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all duration-200"
                 >
                   <option value="">Select Guest</option>
                   {guests.map(guest => (
-                    <option key={guest.Id} value={guest.Id}>
-                      {guest.firstName} {guest.lastName}
+<option key={guest.Id} value={guest.Id}>
+                      {guest.first_name_c} {guest.last_name_c}
                     </option>
                   ))}
                 </select>
@@ -86,15 +86,15 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
                   Room
                 </label>
                 <select
-                  value={formData.roomId}
-                  onChange={(e) => handleChange("roomId", e.target.value)}
+value={formData.room_id_c}
+                  onChange={(e) => handleChange("room_id_c", e.target.value)}
                   required
                   className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all duration-200"
                 >
                   <option value="">Select Room</option>
-                  {availableRooms.map(room => (
+{availableRooms.map(room => (
                     <option key={room.Id} value={room.Id}>
-                      {room.roomNumber} - {room.type} (${room.baseRate}/night)
+                      {room.room_number_c} - {room.type_c} (${room.base_rate_c}/night)
                     </option>
                   ))}
                 </select>
@@ -106,8 +106,8 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
                 </label>
                 <Input
                   type="date"
-                  value={formData.checkIn}
-                  onChange={(e) => handleChange("checkIn", e.target.value)}
+value={formData.check_in_c}
+                  onChange={(e) => handleChange("check_in_c", e.target.value)}
                   required
                 />
               </div>
@@ -117,8 +117,8 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
                   Check-out Date
                 </label>
                 <Input
-                  type="date"
-                  value={formData.checkOut}
+type="date"
+                  value={formData.check_out_c}
                   onChange={(e) => handleChange("checkOut", e.target.value)}
                   required
                 />
@@ -131,8 +131,8 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
                 <Input
                   type="number"
                   min="1"
-                  value={formData.numberOfGuests}
-                  onChange={(e) => handleChange("numberOfGuests", e.target.value)}
+value={formData.number_of_guests_c}
+                  onChange={(e) => handleChange("number_of_guests_c", e.target.value)}
                   required
                 />
               </div>
@@ -142,8 +142,8 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
                   Payment Status
                 </label>
                 <select
-                  value={formData.paymentStatus}
-                  onChange={(e) => handleChange("paymentStatus", e.target.value)}
+value={formData.payment_status_c}
+                  onChange={(e) => handleChange("payment_status_c", e.target.value)}
                   className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all duration-200"
                 >
                   <option value="pending">Pending</option>
@@ -158,8 +158,8 @@ const BookingModal = ({ isOpen, onClose, onSubmit, guests, rooms, editBooking = 
                 Special Requests
               </label>
               <textarea
-                value={formData.specialRequests}
-                onChange={(e) => handleChange("specialRequests", e.target.value)}
+value={formData.special_requests_c}
+                onChange={(e) => handleChange("special_requests_c", e.target.value)}
                 rows="3"
                 className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all duration-200"
                 placeholder="Any special requests..."
