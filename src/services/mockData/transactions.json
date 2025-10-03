@@ -1,0 +1,56 @@
+[
+  {
+    "Id": 1,
+    "bookingId": 1,
+    "amount": 600,
+    "type": "booking",
+    "method": "credit_card",
+    "timestamp": "2024-01-14T15:00:00Z",
+    "description": "Full payment for booking #1"
+  },
+  {
+    "Id": 2,
+    "bookingId": 2,
+    "amount": 375,
+    "type": "booking",
+    "method": "debit_card",
+    "timestamp": "2024-01-13T10:30:00Z",
+    "description": "Full payment for booking #2"
+  },
+  {
+    "Id": 3,
+    "bookingId": 3,
+    "amount": 465,
+    "type": "booking",
+    "method": "credit_card",
+    "timestamp": "2024-01-14T11:15:00Z",
+    "description": "Partial payment (50%) for booking #3"
+  },
+  {
+    "Id": 4,
+    "bookingId": 4,
+    "amount": 840,
+    "type": "booking",
+    "method": "credit_card",
+    "timestamp": "2024-01-12T09:45:00Z",
+    "description": "Full payment for booking #4"
+  },
+  {
+    "Id": 5,
+    "bookingId": 1,
+    "amount": 25,
+    "type": "room_service",
+    "method": "room_charge",
+    "timestamp": "2024-01-15T19:30:00Z",
+    "description": "Room service - dinner"
+  },
+  {
+    "Id": 6,
+    "bookingId": 3,
+    "amount": 15,
+    "type": "minibar",
+    "method": "room_charge",
+    "timestamp": "2024-01-15T22:15:00Z",
+    "description": "Mini bar charges"
+  }
+]
