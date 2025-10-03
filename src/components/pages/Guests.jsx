@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Header from "@/components/organisms/Header";
 import GuestCard from "@/components/molecules/GuestCard";
+import GuestFormModal from "@/components/organisms/GuestFormModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import guestService from "@/services/api/guestService";
-
 const Guests = ({ onMenuClick }) => {
-  const [guests, setGuests] = useState([]);
+const [guests, setGuests] = useState([]);
   const [filteredGuests, setFilteredGuests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [vipFilter, setVipFilter] = useState(false);
-
   const loadGuests = async () => {
     try {
       setLoading(true);
@@ -32,7 +32,16 @@ const Guests = ({ onMenuClick }) => {
   useEffect(() => {
     loadGuests();
   }, []);
+const handleAddGuest = () => {
+    setIsFormOpen(true);
+  };
 
+  const handleFormClose = (shouldRefresh) => {
+    setIsFormOpen(false);
+    if (shouldRefresh) {
+      loadGuests();
+    }
+  };
   useEffect(() => {
     let filtered = guests;
 
@@ -55,9 +64,17 @@ filtered = filtered.filter(g => g.vip_status_c);
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadGuests} />;
 
-  return (
+return (
     <div className="flex-1 flex flex-col min-h-screen bg-background overflow-x-hidden">
-      <Header title="Guests" onMenuClick={onMenuClick} />
+      <Header 
+        title="Guests" 
+        onMenuClick={onMenuClick}
+        action={{
+          icon: "UserPlus",
+          label: "Add Guest",
+          onClick: handleAddGuest
+        }}
+      />
       
       <div className="flex-1 p-4 lg:p-8 space-y-6">
         <div className="flex flex-col lg:flex-row gap-4">
@@ -98,6 +115,11 @@ filtered = filtered.filter(g => g.vip_status_c);
           </div>
         )}
       </div>
+
+      <GuestFormModal
+        isOpen={isFormOpen}
+        onClose={handleFormClose}
+      />
     </div>
   );
 };

@@ -3,19 +3,19 @@ import { toast } from "react-toastify";
 import Header from "@/components/organisms/Header";
 import RoomGrid from "@/components/organisms/RoomGrid";
 import RoomDetailsModal from "@/components/organisms/RoomDetailsModal";
+import RoomFormModal from "@/components/organisms/RoomFormModal";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Badge from "@/components/atoms/Badge";
 import roomService from "@/services/api/roomService";
-
 const Rooms = ({ onMenuClick }) => {
-  const [rooms, setRooms] = useState([]);
+const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
-
   const loadRooms = async () => {
     try {
       setLoading(true);
@@ -29,7 +29,16 @@ const Rooms = ({ onMenuClick }) => {
       setLoading(false);
     }
   };
+const handleAddRoom = () => {
+    setIsFormOpen(true);
+  };
 
+  const handleFormClose = (shouldRefresh) => {
+    setIsFormOpen(false);
+    if (shouldRefresh) {
+      loadRooms();
+    }
+  };
   useEffect(() => {
     loadRooms();
   }, []);
@@ -64,9 +73,17 @@ const statusCounts = {
     maintenance: rooms.filter(r => r.status_c === "maintenance").length
   };
 
-  return (
+return (
     <div className="flex-1 flex flex-col min-h-screen bg-background overflow-x-hidden">
-      <Header title="Rooms" onMenuClick={onMenuClick} />
+      <Header 
+        title="Rooms" 
+        onMenuClick={onMenuClick}
+        action={{
+          icon: "Plus",
+          label: "Add Room",
+          onClick: handleAddRoom
+        }}
+      />
       
       <div className="flex-1 p-4 lg:p-8 space-y-6">
         <div className="flex flex-wrap items-center gap-3">
@@ -127,12 +144,16 @@ const statusCounts = {
           onRoomClick={setSelectedRoom}
         />
       </div>
-
-      <RoomDetailsModal
+<RoomDetailsModal
         isOpen={!!selectedRoom}
         onClose={() => setSelectedRoom(null)}
         room={selectedRoom}
         onStatusChange={handleStatusChange}
+      />
+
+      <RoomFormModal
+        isOpen={isFormOpen}
+        onClose={handleFormClose}
       />
     </div>
   );
