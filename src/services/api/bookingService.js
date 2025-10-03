@@ -3,7 +3,6 @@ import bookingsData from "../mockData/bookings.json";
 let bookings = [...bookingsData];
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
 const bookingService = {
   getAll: async () => {
     await delay(300);
@@ -100,8 +99,67 @@ const bookingService = {
     return await bookingService.updateStatus(id, "checked-out");
   },
 
-  cancel: async (id) => {
+cancel: async (id) => {
     return await bookingService.updateStatus(id, "cancelled");
+  },
+
+  getRecentActivity: async () => {
+    await delay(300);
+    
+    const activities = [];
+    const now = new Date();
+    
+    bookings.forEach(booking => {
+      const checkIn = new Date(booking.checkIn);
+      const checkOut = new Date(booking.checkOut);
+      
+      // Check-in activities (past 7 days)
+      if (checkIn <= now && checkIn >= new Date(now - 7 * 24 * 60 * 60 * 1000)) {
+        activities.push({
+          Id: `checkin-${booking.Id}`,
+          type: 'checkin',
+          booking: booking,
+          timestamp: booking.checkIn,
+          description: `${booking.guestName} checked in to Room ${booking.roomNumber}`
+        });
+      }
+      
+      // Check-out activities (past 7 days)
+      if (checkOut <= now && checkOut >= new Date(now - 7 * 24 * 60 * 60 * 1000)) {
+        activities.push({
+          Id: `checkout-${booking.Id}`,
+          type: 'checkout',
+          booking: booking,
+          timestamp: booking.checkOut,
+          description: `${booking.guestName} checked out from Room ${booking.roomNumber}`
+        });
+      }
+      
+      // New booking activities (created in past 7 days - using checkIn as proxy)
+      if (booking.status === 'confirmed' && checkIn > now) {
+        activities.push({
+          Id: `new-${booking.Id}`,
+          type: 'new_booking',
+          booking: booking,
+          timestamp: booking.checkIn,
+          description: `New booking created for ${booking.guestName}`
+        });
+      }
+    });
+    
+    return activities
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .slice(0, 10);
+  },
+
+  getUpcomingBookings: async () => {
+    await delay(300);
+    const now = new Date();
+    
+    return bookings
+      .filter(b => new Date(b.checkIn) > now)
+      .sort((a, b) => new Date(a.checkIn) - new Date(b.checkIn))
+      .slice(0, 10);
   }
 };
 

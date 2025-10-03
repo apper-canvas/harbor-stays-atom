@@ -4,6 +4,47 @@ let transactions = [...transactionsData];
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+// Revenue analytics methods
+const getLast7DaysRevenue = async () => {
+  await delay(300);
+  
+  const today = new Date();
+  const last7Days = [];
+  
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const dateStr = date.toISOString().split('T')[0];
+    
+    const dayRevenue = transactions
+      .filter(t => t.timestamp.startsWith(dateStr) && t.type === 'booking')
+      .reduce((sum, t) => sum + t.amount, 0);
+    
+    last7Days.push({
+      date: dateStr,
+      revenue: dayRevenue
+    });
+  }
+  
+  return last7Days;
+};
+
+const getTotalRevenue = async () => {
+  await delay(200);
+  return transactions
+    .filter(t => t.type === 'booking')
+    .reduce((sum, t) => sum + t.amount, 0);
+};
+
+const getAverageDailyRate = async () => {
+  await delay(200);
+  const bookingTransactions = transactions.filter(t => t.type === 'booking');
+  if (bookingTransactions.length === 0) return 0;
+  
+  const total = bookingTransactions.reduce((sum, t) => sum + t.amount, 0);
+  return Math.round(total / bookingTransactions.length);
+};
+
 const transactionService = {
   getAll: async () => {
     await delay(300);
@@ -36,14 +77,9 @@ const transactionService = {
     };
     transactions.push(newTransaction);
     return { ...newTransaction };
-  },
+},
 
-  getTotalRevenue: async () => {
-    await delay(300);
-    return transactions
-      .filter(t => t.type === "booking")
-      .reduce((sum, t) => sum + t.amount, 0);
-  },
+  getTotalRevenue,
 
   getRevenueByDateRange: async (startDate, endDate) => {
     await delay(300);
@@ -55,7 +91,10 @@ const transactionService = {
         return tDate >= start && tDate <= end;
       })
       .reduce((sum, t) => sum + t.amount, 0);
-  }
+  },
+
+  getLast7DaysRevenue,
+  getAverageDailyRate
 };
 
 export default transactionService;
