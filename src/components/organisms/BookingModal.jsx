@@ -113,13 +113,13 @@ value={formData.check_in_c}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+<label className="block text-sm font-medium text-gray-700 mb-2">
                   Check-out Date
                 </label>
                 <Input
 type="date"
                   value={formData.check_out_c}
-                  onChange={(e) => handleChange("checkOut", e.target.value)}
+                  onChange={(e) => handleChange("check_out_c", e.target.value)}
                   required
                 />
               </div>
