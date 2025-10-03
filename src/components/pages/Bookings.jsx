@@ -70,10 +70,13 @@ const guest = guests.find(g => g.Id === b.guest_id_c?.Id || g.Id === b.guest_id_
     setFilteredBookings(filtered);
   }, [statusFilter, searchQuery, bookings, guests, rooms]);
 
-  const handleCreateBooking = async (bookingData) => {
+const handleCreateBooking = async (bookingData) => {
     try {
-      await bookingService.create(bookingData);
-      await roomService.updateStatus(bookingData.roomId, "occupied");
+      const newBooking = await bookingService.create(bookingData);
+      if (newBooking && newBooking.Id) {
+        await guestService.addBookingToHistory(bookingData.guest_id_c, newBooking.Id);
+      }
+      await roomService.updateStatus(bookingData.room_id_c, "occupied");
       await loadData();
       setShowModal(false);
       toast.success("Booking created successfully!");
