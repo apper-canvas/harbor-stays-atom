@@ -7,8 +7,8 @@ const Card = React.forwardRef(({
   hover = false,
   ...props 
 }, ref) => {
-  const baseStyles = "bg-white rounded-lg shadow-md transition-all duration-200";
-  const hoverStyles = hover ? "hover:shadow-xl hover:scale-[1.02]" : "";
+  const baseStyles = "bg-white rounded-xl shadow-lg border border-gray-100 transition-all duration-300 ease-out";
+  const hoverStyles = hover ? "hover:shadow-2xl hover:scale-[1.03] hover:-translate-y-1" : "";
 
   return (
     <div

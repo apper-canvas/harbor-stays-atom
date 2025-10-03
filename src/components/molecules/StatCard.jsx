@@ -5,35 +5,62 @@ import { cn } from "@/utils/cn";
 
 const StatCard = ({ title, value, icon, trend, trendValue, color = "accent" }) => {
   const colorClasses = {
-    accent: "from-accent to-blue-600",
-    success: "from-success to-green-600",
-    warning: "from-warning to-yellow-600",
-    error: "from-error to-red-600",
-    secondary: "from-secondary to-yellow-600"
+    accent: {
+      gradient: "from-accent to-blue-600",
+      bg: "bg-accent",
+      border: "border-accent"
+    },
+    success: {
+      gradient: "from-success to-green-600",
+      bg: "bg-success",
+      border: "border-success"
+    },
+    warning: {
+      gradient: "from-warning to-yellow-600",
+      bg: "bg-warning",
+      border: "border-warning"
+    },
+    error: {
+      gradient: "from-error to-red-600",
+      bg: "bg-error",
+      border: "border-error"
+    },
+    secondary: {
+      gradient: "from-secondary to-yellow-600",
+      bg: "bg-secondary",
+      border: "border-secondary"
+    }
   };
 
   return (
-    <Card hover className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-sm font-medium text-gray-600">{title}</span>
-        <div className={cn("p-3 rounded-lg bg-gradient-to-br", colorClasses[color], "bg-opacity-10")}>
+    <Card hover className={cn("p-6 border-l-4", colorClasses[color].border, "relative overflow-hidden")}>
+      <div className="flex items-center justify-between mb-5">
+        <span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">{title}</span>
+        <div className={cn(
+          "p-3 rounded-xl shadow-lg transition-all duration-300",
+          colorClasses[color].bg,
+          "hover:scale-110"
+        )}>
           <ApperIcon name={icon} size={24} className="text-white" />
         </div>
       </div>
       <div className="flex items-end justify-between">
         <div>
-          <h3 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+          <h3 className="text-4xl font-bold text-gray-900 mb-1 tracking-tight">
             {value}
           </h3>
           {trend && (
-            <div className="flex items-center mt-2 space-x-1">
+            <div className="flex items-center mt-3 space-x-1.5">
               <ApperIcon 
                 name={trend === "up" ? "TrendingUp" : "TrendingDown"} 
-                size={16} 
-                className={trend === "up" ? "text-success" : "text-error"}
+                size={18} 
+                className={cn(
+                  "transition-colors",
+                  trend === "up" ? "text-success" : "text-error"
+                )}
               />
               <span className={cn(
-                "text-sm font-medium",
+                "text-sm font-semibold",
                 trend === "up" ? "text-success" : "text-error"
               )}>
                 {trendValue}
