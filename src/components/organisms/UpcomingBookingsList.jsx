@@ -59,7 +59,7 @@ const UpcomingBookingsList = ({ bookings }) => {
               <div className="flex items-center space-x-1 text-gray-600">
                 <ApperIcon name="CalendarDays" size={16} />
                 <span className="text-sm font-medium">
-                  {format(new Date(booking.checkIn), 'MMM dd')}
+{booking.checkIn ? format(new Date(booking.checkIn), 'MMM dd') : "N/A"}
                 </span>
               </div>
               <p className="text-xs text-gray-500 mt-1">

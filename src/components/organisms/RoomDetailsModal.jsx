@@ -95,7 +95,7 @@ ${room.base_rate_c}
                 <span className="text-sm font-medium text-blue-900">Last Cleaned</span>
               </div>
               <p className="text-gray-700">
-{format(parseISO(room.last_cleaned_c), "PPpp")}
+{room.last_cleaned_c ? format(parseISO(room.last_cleaned_c), "PPpp") : "Not available"}
               </p>
             </div>
 

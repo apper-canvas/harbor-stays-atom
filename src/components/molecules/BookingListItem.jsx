@@ -20,7 +20,7 @@ const BookingListItem = ({ booking, guest, room, onClick }) => {
           <div className="flex items-center space-x-3 mt-1 text-sm text-gray-600">
             <div className="flex items-center space-x-1">
               <ApperIcon name="Calendar" size={14} />
-<span>{format(parseISO(booking.check_in_c), "MMM dd")} - {format(parseISO(booking.check_out_c), "MMM dd")}</span>
+<span>{booking.check_in_c && booking.check_out_c ? `${format(parseISO(booking.check_in_c), "MMM dd")} - ${format(parseISO(booking.check_out_c), "MMM dd")}` : "N/A"}</span>
             </div>
             <div className="flex items-center space-x-1">
               <ApperIcon name="Users" size={14} />
